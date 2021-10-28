@@ -1,0 +1,29 @@
+{
+  "name": "gwjt_bot",
+  "version": "1.0.0",
+  "description": "a Telegram bot for @GottesWortJedenTag",
+  "main": "index.js",
+  "dependencies": {
+    "rss-parser": "^3.12.0",
+    "telebot": "^1.4.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "rudolf.koschel",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rkoschel/rss-telegram-bot.git"
+  },
+  "keywords": [
+    "Telegram",
+    "bot",
+    "RSS"
+  ],
+  "bugs": {
+    "url": "https://github.com/rkoschel/rss-telegram-bot/issues"
+  },
+  "homepage": "https://github.com/rkoschel/rss-telegram-bot#readme"
+}
