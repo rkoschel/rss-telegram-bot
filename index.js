@@ -9,13 +9,15 @@ const rssParser = require('rss-parser');
 
 const rss = new rssParser();
 
-const CONFIG_FILE = './app.config';
-const CHATID_FILE = './chat.ids';
-const MESSAGE_FILE = './message.latest'
+const CONFIG_FILE   = './app.config';
+const CHATID_FILE   = './chat.ids';
+const MESSAGE_FILE  = './message.latest';
+const INFO_FILE     = './message.info';
 
 var bot;
 var appConfig;
 var latestMessage;
+var infoMessage;
 var allChatIds = new Array();
 
 function alreadyKnown(chatId) {
@@ -44,10 +46,23 @@ function initConfig() {
     }
 }
 
+function initInfo() {
+    try {
+        if(fs.existsSync(INFO_FILE)){
+            infoMessage = fs.readFileSync(INFO_FILE, 'utf8');
+        }
+        console.log('info message loaded');
+    } catch (e) {
+        console.log(e);
+        console.log("couldn't read info message file");
+    }
+}
+
 function initTelegram(){
     bot = new TeleBot(appConfig.telegramBotId);
     bot.on('/start', handleStart);
     bot.on('/stop', handleStop);
+    bot.on('/info', handleInfo);
     console.log('Telegram bot initialized');
 }
 
@@ -74,6 +89,13 @@ function handleStop(msg) {
     fs.close(file_descriptor, (err) => {(err!=null)?console.log(err):''});
     console.log(curChatId + ' removed');
     bot.sendMessage(curChatId, appConfig.stopMessage);
+}
+
+function handleInfo(msg) {
+    let curChatId = msg.from.id;
+    console.log('send infoMessage to ' + curChatId);
+    console.log(infoMessage);
+    bot.sendMessage(curChatId, infoMessage);
 }
 
 function initRss(){
@@ -134,6 +156,7 @@ function nowAsString() {
 /* main process */
 if (require.main === module) {
     initConfig();
+    initInfo();
     initTelegram();
     initChats();
     initRss();
