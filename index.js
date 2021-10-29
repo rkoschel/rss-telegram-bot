@@ -72,6 +72,7 @@ function handleStart(msg) {
             fs.writeFileSync(CHATID_FILE, allChatIds.join('\n'));
         }
         bot.sendMessage(curChatId, appConfig.startMessage);
+        bot.sendMessage(curChatId, latestMessage);
 }
 
 function handleStop(msg) {
