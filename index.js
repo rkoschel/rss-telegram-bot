@@ -9,7 +9,7 @@ const rssParser = require('rss-parser');
 
 const rss = new rssParser();
 
-const CONFIG_FILE   = './app.config';
+const CONFIG_FILE   = './app.config.gwfjt';
 const CHATID_FILE   = './chat.ids';
 const MESSAGE_FILE  = './message.latest';
 const INFO_FILE     = './message.info';
