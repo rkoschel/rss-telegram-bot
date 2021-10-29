@@ -110,9 +110,11 @@ async function readAndSendRssFeed() {
     if(latestMessage !== newMessage) {
         latestMessage = newMessage;
         fs.writeFileSync(MESSAGE_FILE, latestMessage);
-        console.log(nowAsString() + ' # send new message to ' + allChatIds.length + ' chats');
+        console.log(nowAsString() + ' # send new message to ' + (allChatIds.length - 1) + ' chats');
         allChatIds.forEach(id => {
-            bot.sendMessage(id, latestMessage);
+            if(id !== '--dummy--do-not-remove--') {
+                bot.sendMessage(id, latestMessage);
+            }
         });
     }
     else {
@@ -123,12 +125,10 @@ async function readAndSendRssFeed() {
 function initChats() {
     try {
         if(fs.existsSync(CHATID_FILE)){
-            let file_descriptor = fs.openSync(CHATID_FILE);
-            allChatIds = fs.readFileSync(file_descriptor, 'utf8').split('\n');
-            fs.close(file_descriptor, (err) => {(err!=null)?console.log(err):''});
+            allChatIds = fs.readFileSync(CHATID_FILE, 'utf8').split('\n');
         }
-        console.log('read ' + allChatIds.length + ' subscribers');
-        bot.sendMessage(appConfig.adminChatId, 'restarted with ' + allChatIds.length + ' subscribers', {notification:false});
+        console.log('read ' + (allChatIds.length - 1) + ' subscribers');
+        bot.sendMessage(appConfig.adminChatId, 'restarted with ' + (allChatIds.length - 1) + ' subscribers', {notification:false});
     } catch (e) {
         console.log(e);
         console.log("couldn't read subscribers");
