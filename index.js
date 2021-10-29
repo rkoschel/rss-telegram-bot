@@ -62,6 +62,8 @@ function initTelegram(){
     bot.on('/start', handleStart);
     bot.on('/stop', handleStop);
     bot.on('/info', handleInfo);
+    bot.on('/bible', handleBible);
+    bot.on('/comments', handleComments);
     console.log('Telegram bot initialized');
 }
 
@@ -91,6 +93,16 @@ function handleStop(msg) {
 function handleInfo(msg) {
     let curChatId = msg.from.id;
     bot.sendMessage(curChatId, infoMessage);
+}
+
+function handleBible(msg) {
+    let curChatId = msg.from.id;
+    bot.sendMessage(curChatId, 'Lies die ganze Bibel kostenlos online: csv-bibel.de');
+}
+
+function handleComments(msg) {
+    let curChatId = msg.from.id;
+    bot.sendMessage(curChatId, 'Lies hilfreiche Kommentare zur Bibel auf: bibelkommentare.de/kommentare');
 }
 
 function initRss(){
