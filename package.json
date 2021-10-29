@@ -1,7 +1,7 @@
 {
-  "name": "gwjt_bot",
+  "name": "daily_rss_bot",
   "version": "1.0.0",
-  "description": "a Telegram bot for @GottesWortJedenTag",
+  "description": "A Telegram to to parse one RSS feed on a daily basis and send new results as Telegram message.",
   "main": "index.js",
   "dependencies": {
     "rss-parser": "^3.12.0",
