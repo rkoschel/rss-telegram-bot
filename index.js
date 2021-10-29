@@ -23,7 +23,6 @@ var allChatIds = new Array();
 function alreadyKnown(chatId) {
     let wasNew = false;
     for (let i = 0; i < allChatIds.length; i++) {
-        console.log('check: ' + allChatIds[i] + '===' + chatId);
         if(allChatIds[i] === chatId)
             return true;
     }
@@ -71,7 +70,6 @@ function handleStart(msg) {
         if(!alreadyKnown(curChatId)) {
             allChatIds.push(msg.from.id);
             fs.writeFileSync(CHATID_FILE, allChatIds.join('\n'));
-            console.log(curChatId + ' added');
         }
         bot.sendMessage(curChatId, appConfig.startMessage);
 }
@@ -87,14 +85,11 @@ function handleStop(msg) {
     let file_descriptor = fs.openSync(CHATID_FILE);
     fs.writeFileSync(CHATID_FILE, allChatIds.join('\n'));
     fs.close(file_descriptor, (err) => {(err!=null)?console.log(err):''});
-    console.log(curChatId + ' removed');
     bot.sendMessage(curChatId, appConfig.stopMessage);
 }
 
 function handleInfo(msg) {
     let curChatId = msg.from.id;
-    console.log('send infoMessage to ' + curChatId);
-    console.log(infoMessage);
     bot.sendMessage(curChatId, infoMessage);
 }
 
