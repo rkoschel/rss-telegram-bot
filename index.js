@@ -97,12 +97,12 @@ function handleInfo(msg) {
 
 function handleBible(msg) {
     let curChatId = msg.from.id;
-    bot.sendMessage(curChatId, 'Lies die ganze Bibel kostenlos online: csv-bibel.de');
+    bot.sendMessage(curChatId, appConfig.bibleMessage);
 }
 
 function handleComments(msg) {
     let curChatId = msg.from.id;
-    bot.sendMessage(curChatId, 'Lies hilfreiche Kommentare zur Bibel auf: bibelkommentare.de/kommentare');
+    bot.sendMessage(curChatId, appConfig.commentsMessage);
 }
 
 function initRss(){
