@@ -23,7 +23,7 @@ var allChatIds = new Array();
 function alreadyKnown(chatId) {
     let wasNew = false;
     for (let i = 0; i < allChatIds.length; i++) {
-        if(allChatIds[i] === chatId)
+        if(allChatIds[i] == chatId)
             return true;
     }
     return false;
@@ -79,13 +79,11 @@ function handleStop(msg) {
     let curChatId = msg.from.id;
     let allChatIds_NEW = new Array();
     for (let i = 0; i < allChatIds.length; i++) {
-        if(allChatIds[i] !== curChatId)
+        if(allChatIds[i] != curChatId && allChatIds[i] != '')
             allChatIds_NEW.push(allChatIds[i]);
     }
     allChatIds = allChatIds_NEW;
-    let file_descriptor = fs.openSync(CHATID_FILE);
     fs.writeFileSync(CHATID_FILE, allChatIds.join('\n'));
-    fs.close(file_descriptor, (err) => {(err!=null)?console.log(err):''});
     bot.sendMessage(curChatId, appConfig.stopMessage);
 }
 
@@ -108,14 +106,12 @@ async function readAndSendRssFeed() {
     let feed = await rss.parseURL(appConfig.rssURL);
     let currentItem = feed.items[0];
     let newMessage = currentItem.title + '\n' + cleanupRSSMessage(currentItem.content);
-    if(latestMessage !== newMessage) {
+    if(latestMessage != newMessage) {
         latestMessage = newMessage;
         fs.writeFileSync(MESSAGE_FILE, latestMessage);
-        console.log(nowAsString() + ' # send new message to ' + (allChatIds.length - 1) + ' chats');
+        console.log(nowAsString() + ' # send new message to ' + allChatIds.length + ' chats');
         allChatIds.forEach(id => {
-            if(id !== '--dummy--do-not-remove--') {
-                bot.sendMessage(id, latestMessage);
-            }
+            bot.sendMessage(id, latestMessage);
         });
     }
     else {
@@ -128,8 +124,8 @@ function initChats() {
         if(fs.existsSync(CHATID_FILE)){
             allChatIds = fs.readFileSync(CHATID_FILE, 'utf8').split('\n');
         }
-        console.log('read ' + (allChatIds.length - 1) + ' subscribers');
-        bot.sendMessage(appConfig.adminChatId, 'restarted with ' + (allChatIds.length - 1) + ' subscribers', {notification:false});
+        console.log('read ' + allChatIds.length + ' subscribers');
+        bot.sendMessage(appConfig.adminChatId, 'restarted with ' + allChatIds.length + ' subscribers', {notification:false});
     } catch (e) {
         console.log(e);
         console.log("couldn't read subscribers");
