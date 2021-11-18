@@ -1,0 +1,11 @@
+[Unit]
+Description=Gottes Wort für jeden Tag Bot
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/home/pi/.nvm/versions/node/v17.1.0/bin/node /home/pi/Apps/gwfjt/index.js
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
