@@ -30,7 +30,10 @@ function alreadyKnown(chatId) {
 }
 
 function cleanupRSSMessage(rssMsg) {
-    return rssMsg.split('(')[0];
+    try {
+        return rssMsg.split('(')[0].trim();
+    } catch (e) {}
+    return '';
 }
 
 function initConfig() {
@@ -74,7 +77,7 @@ function handleStart(msg) {
             fs.writeFileSync(CHATID_FILE, allChatIds.join('\n'));
         }
         bot.sendMessage(curChatId, appConfig.startMessage);
-        bot.sendMessage(curChatId, latestMessage);
+        bot.sendMessage(curChatId, latestMessage, {parseMode : 'markdown'});
 }
 
 function handleStop(msg) {
@@ -117,13 +120,13 @@ async function readAndSendRssFeed() {
     
     let feed = await rss.parseURL(appConfig.rssURL);
     let currentItem = feed.items[0];
-    let newMessage = cleanupRSSMessage(currentItem.content) + '\n' + currentItem.title;
+    let newMessage = '*' + cleanupRSSMessage(currentItem.content) + '*\n' + currentItem.title;
     if(latestMessage != newMessage) {
         latestMessage = newMessage;
         fs.writeFileSync(MESSAGE_FILE, latestMessage);
         console.log(nowAsString() + ' # send new message to ' + allChatIds.length + ' chats');
         allChatIds.forEach(id => {
-            bot.sendMessage(id, latestMessage);
+            bot.sendMessage(id, latestMessage, {parseMode : 'markdown'});
         });
     }
     else {
