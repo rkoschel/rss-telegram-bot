@@ -117,7 +117,7 @@ async function readAndSendRssFeed() {
     
     let feed = await rss.parseURL(appConfig.rssURL);
     let currentItem = feed.items[0];
-    let newMessage = currentItem.title + '\n' + cleanupRSSMessage(currentItem.content);
+    let newMessage = cleanupRSSMessage(currentItem.content) + '\n' + currentItem.title;
     if(latestMessage != newMessage) {
         latestMessage = newMessage;
         fs.writeFileSync(MESSAGE_FILE, latestMessage);
