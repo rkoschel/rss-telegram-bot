@@ -4,7 +4,7 @@ After=multi-user.target
 
 [Service]
 Type=simple
-ExecStart=/home/pi/.nvm/versions/node/v17.1.0/bin/node /home/pi/Apps/gwfjt/index.js
+ExecStart=/home/pi/Apps/gwfjt/bin/run.sh
 Restart=on-abort
 
 [Install]
