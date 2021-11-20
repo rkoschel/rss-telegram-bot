@@ -5,3 +5,4 @@ message.latest
 app.config
 
 .idea
+.vscode
