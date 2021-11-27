@@ -126,7 +126,11 @@ async function readAndSendRssFeed() {
         fs.writeFileSync(MESSAGE_FILE, latestMessage);
         console.log(nowAsString() + ' # send new message to ' + allChatIds.length + ' chats');
         allChatIds.forEach(id => {
-            bot.sendMessage(id, latestMessage, {parseMode : 'markdown'});
+            try {
+                bot.sendMessage(id, latestMessage, {parseMode : 'markdown'});
+            } catch (e) {
+                console.log('could not send message to ' + id);
+            }
         });
     }
     else {
